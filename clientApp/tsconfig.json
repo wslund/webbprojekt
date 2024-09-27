@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Välj den ECMAScript-version du vill använda
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // Behövs för React och DOM-manipulationer
+    "allowJs": true, // Tillåt JavaScript-filer
+    "skipLibCheck": true, // Hoppa över typkontroll av bibliotek
+    "esModuleInterop": true, // Möjliggör interoperabilitet med ES-moduler
+    "allowSyntheticDefaultImports": true, // Tillåt syntetiska default-importer
+    "strict": true, // Aktivera TypeScripts strikta läge
+    "forceConsistentCasingInFileNames": true, // Tvinga fram konsekvent filnamnscasing
+    "module": "ESNext", // Använd ES-moduler
+    "moduleResolution": "node", // Använd Node.js-modulupplösning
+    "resolveJsonModule": true, // Tillåt import av JSON-filer
+    "isolatedModules": true, // Kompilera varje fil som en separat modul
+    "jsx": "react-jsx", // För React 17+ JSX runtime
+    "noEmit": true, // Stoppa generering av JavaScript-filer
+    "allowImportingTsExtensions": true // Tillåt import av TypeScript-filer med filändelse
+  },
+  "include": ["src/**/*"], // Inkludera src-katalogen
+  "exclude": ["node_modules", "dist"] // Exkludera node_modules och dist
+}
