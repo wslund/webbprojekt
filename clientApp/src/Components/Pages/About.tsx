@@ -10,12 +10,11 @@ import {
 import myHorseImage from "../../assets/häst.jpg";
 
 const About = () => {
-  // Använd useBreakpointValue för att ställa in layouten baserat på skärmstorleken
   const direction = useBreakpointValue({ base: "column", md: "row" }) as
     | "column"
-    | "row"; // Typkonvertering
-  const imageOrder = useBreakpointValue({ base: 1, md: 2 }); // Bildens ordning
-  const textOrder = useBreakpointValue({ base: 2, md: 1 }); // Textens ordning
+    | "row";
+  const imageOrder = useBreakpointValue({ base: 1, md: 2 });
+  const textOrder = useBreakpointValue({ base: 2, md: 1 });
 
   return (
     <Stack
@@ -31,14 +30,13 @@ const About = () => {
         align="center"
         justify="center"
         padding="2rem"
-        direction={direction} // Använd den responsiva direction
+        direction={direction}
       >
-        {/* Box för texten */}
         <Box
-          width={{ base: "100%", md: "50%" }} // Gör texten ta 50% på större skärmar
+          width={{ base: "100%", md: "50%" }}
           textAlign="center"
           paddingX="1rem"
-          order={textOrder} // Styr ordningen av texten
+          order={textOrder}
         >
           <Heading as="h1" size="xl" marginBottom="1rem">
             Om Oss - Hästuppfödning Företag
@@ -54,25 +52,23 @@ const About = () => {
             välbefinnande och utveckling.
           </Text>
         </Box>
-
-        {/* Box för bilden */}
         <Box
           maxWidth="600px"
           width="100%"
           display="flex"
           flexDirection="column"
           alignItems="center"
-          marginBottom={{ base: "2rem", md: "0" }} // Margin under på mobil
-          order={imageOrder} // Styr ordningen av bilden
+          marginBottom={{ base: "2rem", md: "0" }}
+          order={imageOrder}
         >
           <Image
-            src={myHorseImage} // Använd den importerade bilden
+            src={myHorseImage}
             alt="Hästar"
-            width="100%" // Sätt bredd till 100%
-            maxWidth="600px" // Sätt en maxbredd för att förhindra att bilden blir för stor
-            objectFit="cover" // Gör så att bilden täcker hela utrymmet
+            width="100%"
+            maxWidth="600px"
+            objectFit="cover"
             borderRadius="2px"
-            marginBottom="1rem" // Ge lite utrymme under bilden
+            marginBottom="1rem"
           />
         </Box>
       </Flex>
