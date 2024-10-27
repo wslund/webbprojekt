@@ -1,24 +1,25 @@
-import { Link } from "react-router-dom"; // Importera Link från react-router-dom
-import { Box, Flex, Link as ChakraLink, Spacer } from "@chakra-ui/react"; // Importera Chakra UI Link
+import { Box, Flex, Link as ChakraLink } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import RoutingObject from "../RoutingObject";
 
 const PaginationNavbar = () => {
   return (
-    <Box bg="gray.200" padding="1rem" width="100%">
-      <Flex>
-        {/* Dynamiskt skapa länkar från RoutingObject */}
+    <Box bg="primary" padding="1rem" width="100%">
+      <Flex justify="center" align="center">
         {RoutingObject.map((route: any, index: any) => (
           <ChakraLink
-            as={Link} // Använd Link från react-router-dom
+            as={Link}
             key={index}
-            to={route.path} // Dynamisk routing-länk
+            to={route.path}
             marginRight="2"
-            color="blue.500"
+            color="textColor"
+            fontSize="lg"
+            fontFamily="heading"
+            _hover={{ color: "gray.300" }}
           >
             {route.name}
           </ChakraLink>
         ))}
-        <Spacer />
       </Flex>
     </Box>
   );
