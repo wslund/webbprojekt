@@ -33,6 +33,9 @@ const About = () => {
         justify="center"
         padding="2rem"
         direction={direction}
+        maxWidth="1200px" // Maximal bredd för att hålla innehållet centrerat
+        width="100%"
+        margin="0 auto" // Centera innehållet horisontellt
       >
         <Box
           width={{ base: "100%", md: "50%" }}
@@ -69,7 +72,7 @@ const About = () => {
             width="100%"
             maxWidth="600px"
             objectFit="cover"
-            borderRadius="2px"
+            borderRadius="4px"
             marginBottom="1rem"
           />
         </Box>
@@ -80,7 +83,9 @@ const About = () => {
         justify="center"
         padding="2rem"
         direction={direction}
-        marginLeft={{ base: "0", md: "2rem" }}
+        maxWidth="1200px" // Maximal bredd för att hålla innehållet centrerat
+        width="100%"
+        margin="0 auto" // Centera innehållet horisontellt
       >
         <Box
           maxWidth="600px"
@@ -97,7 +102,7 @@ const About = () => {
             width="100%"
             maxWidth="600px"
             objectFit="cover"
-            borderRadius="2px"
+            borderRadius="4px"
             marginBottom="1rem"
           />
         </Box>
