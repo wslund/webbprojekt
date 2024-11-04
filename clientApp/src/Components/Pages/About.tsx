@@ -10,12 +10,13 @@ import {
 import myHorseImage from "../../assets/häst.jpg";
 
 const About = () => {
-  // Använd useBreakpointValue för att ställa in layouten baserat på skärmstorleken
   const direction = useBreakpointValue({ base: "column", md: "row" }) as
     | "column"
-    | "row"; // Typkonvertering
-  const imageOrder = useBreakpointValue({ base: 1, md: 2 }); // Bildens ordning
-  const textOrder = useBreakpointValue({ base: 2, md: 1 }); // Textens ordning
+    | "row";
+  const imageOrder = useBreakpointValue({ base: 1, md: 2 });
+  const textOrder = useBreakpointValue({ base: 2, md: 1 });
+  const servicesImageOrder = useBreakpointValue({ base: 1, md: 1 });
+  const servicesTextOrder = useBreakpointValue({ base: 2, md: 2 });
 
   return (
     <Stack
@@ -23,7 +24,7 @@ const About = () => {
       margin="0"
       padding="0"
       position="relative"
-      bg="#F7F7F7"
+      bg="secondary"
       minHeight="100vh"
       paddingX="2rem"
     >
@@ -31,19 +32,18 @@ const About = () => {
         align="center"
         justify="center"
         padding="2rem"
-        direction={direction} // Använd den responsiva direction
+        direction={direction}
       >
-        {/* Box för texten */}
         <Box
-          width={{ base: "100%", md: "50%" }} // Gör texten ta 50% på större skärmar
+          width={{ base: "100%", md: "50%" }}
           textAlign="center"
           paddingX="1rem"
-          order={textOrder} // Styr ordningen av texten
+          order={textOrder}
         >
-          <Heading as="h1" size="xl" marginBottom="1rem">
-            Om Oss - Hästuppfödning Företag
+          <Heading as="h1" size="xl" marginBottom="1rem" color="textColor">
+            Om Oss
           </Heading>
-          <Text fontSize="md" lineHeight="1.5" color="#333">
+          <Text fontSize="md" lineHeight="1.5" color="textColor">
             Välkommen till [Företagsnamn], där vår passion för hästar förenas
             med vår expertis inom hästuppfödning.
             <br />
@@ -54,26 +54,73 @@ const About = () => {
             välbefinnande och utveckling.
           </Text>
         </Box>
-
-        {/* Box för bilden */}
         <Box
           maxWidth="600px"
           width="100%"
           display="flex"
           flexDirection="column"
           alignItems="center"
-          marginBottom={{ base: "2rem", md: "0" }} // Margin under på mobil
-          order={imageOrder} // Styr ordningen av bilden
+          marginBottom={{ base: "2rem", md: "0" }}
+          order={imageOrder}
         >
           <Image
-            src={myHorseImage} // Använd den importerade bilden
+            src={myHorseImage}
             alt="Hästar"
-            width="100%" // Sätt bredd till 100%
-            maxWidth="600px" // Sätt en maxbredd för att förhindra att bilden blir för stor
-            objectFit="cover" // Gör så att bilden täcker hela utrymmet
+            width="100%"
+            maxWidth="600px"
+            objectFit="cover"
             borderRadius="2px"
-            marginBottom="1rem" // Ge lite utrymme under bilden
+            marginBottom="1rem"
           />
+        </Box>
+      </Flex>
+
+      <Flex
+        align="center"
+        justify="center"
+        padding="2rem"
+        direction={direction}
+        marginLeft={{ base: "0", md: "2rem" }}
+      >
+        <Box
+          maxWidth="600px"
+          width="100%"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          marginBottom={{ base: "2rem", md: "0" }}
+          order={servicesImageOrder}
+        >
+          <Image
+            src={myHorseImage}
+            alt="Våra Tjänster"
+            width="100%"
+            maxWidth="600px"
+            objectFit="cover"
+            borderRadius="2px"
+            marginBottom="1rem"
+          />
+        </Box>
+        <Box
+          width={{ base: "100%", md: "50%" }}
+          maxWidth="800px"
+          textAlign={{ base: "center", md: "left" }}
+          paddingX={{ base: "1rem", md: "4rem" }}
+          order={servicesTextOrder}
+        >
+          <Heading as="h2" size="lg" marginBottom="1rem" color="textColor">
+            Våra Tjänster
+          </Heading>
+          <Text fontSize="md" lineHeight="1.5" color="textColor">
+            Vi erbjuder en rad tjänster inom hästuppfödning, inklusive:
+            <ul>
+              <li>Professionell träning</li>
+              <li>Rådgivning kring hästhållning</li>
+              <li>Uppfödning av kvalitetsstammar</li>
+              <li>Föreställningar och evenemang</li>
+            </ul>
+            Kontakta oss för att lära dig mer om hur vi kan hjälpa dig!
+          </Text>
         </Box>
       </Flex>
     </Stack>

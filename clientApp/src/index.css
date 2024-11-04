@@ -1,3 +1,10 @@
+/* Lägg till denna regel i din Index.css */
+
+.chakra-button:hover {
+  border-color: transparent; /* Ta bort eventuell ramfärg vid hover */
+}
+
+/* Övriga stilar i Index.css */
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
