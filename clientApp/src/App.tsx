@@ -1,13 +1,12 @@
-import React from "react"; // Importera React
+import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import {
   BrowserRouter as Router,
-  Routes,
   Route,
   Navigate,
+  Routes,
 } from "react-router-dom";
 import MainNavbar from "./Components/Meny/HeaderNavbar";
-import PaginationNavbar from "./Components/Meny/PaginationNavbar";
 import RoutingObject from "./Components/RoutingObject";
 import Footer from "./Components/Meny/Footer";
 import theme from "./Components/Theme/Theme";
@@ -17,7 +16,6 @@ const App = () => {
     <ChakraProvider theme={theme}>
       <Router>
         <MainNavbar />
-        <PaginationNavbar />
         <Routes>
           <Route path="/" element={<Navigate to="/Om" />} />
           {RoutingObject.map((route, index) => (
