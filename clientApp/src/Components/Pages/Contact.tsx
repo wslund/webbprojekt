@@ -1,5 +1,11 @@
+import CardContact from "../Cards/CardContact";
+
 const Contact = () => {
-  return <>Test2</>;
+  return (
+    <>
+      <CardContact />
+    </>
+  );
 };
 
 export default Contact;
