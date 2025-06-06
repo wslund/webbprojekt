@@ -1,19 +1,22 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, BoxProps } from "@chakra-ui/react";
 
-const Footer = () => {
+const Footer: React.FC<BoxProps> = (props) => {
   return (
     <Box
       as="footer"
       bg="primary"
-      color="textColor"
+      color="menyText"
       textAlign="center"
-      padding="1rem"
+      padding={{ base: "1.5rem", md: "2rem" }}
       position="relative"
       bottom="0"
       width="100%"
+      borderTop="1px solid"
+      borderColor="primary"
+      {...props}
     >
-      <Text>
-        &copy; {new Date().getFullYear()} Ditt Företagsnamn. Alla rättigheter
+      <Text fontSize="sm">
+        © {new Date().getFullYear()} Stall Backen. Alla rättigheter
         förbehållna.
       </Text>
     </Box>

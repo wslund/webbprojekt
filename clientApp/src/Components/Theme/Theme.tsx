@@ -1,9 +1,13 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const colors = {
-  primary: "#FFFAF0",
-  secondary: "#FFFFFF",
-  textColor: "black",
+  primary: "#2E4A2E",
+  secondary: "#F5E6CC",
+  textColor: "#4A3728",
+  background: "#F9F9F9",
+  navBar: "#2E4A2E",
+  menyText: "#F9F9F9",
+  menyTextHoverEffekt: "#F5E6CC",
 };
 
 const fonts = {
@@ -17,7 +21,7 @@ const theme = extendTheme({
   styles: {
     global: {
       "html, body": {
-        background: "primary",
+        background: "background",
         color: "textColor",
         fontFamily: "body",
       },
@@ -25,6 +29,7 @@ const theme = extendTheme({
         color: "primary",
         _hover: {
           color: "secondary",
+          textDecoration: "underline",
         },
       },
     },
@@ -38,7 +43,15 @@ const theme = extendTheme({
       variants: {
         solid: {
           bg: "primary",
-          color: "secondary",
+          color: "menyText",
+          _hover: {
+            bg: "secondary",
+            color: "textColor",
+          },
+        },
+        outline: {
+          borderColor: "textColor",
+          color: "textColor",
           _hover: {
             bg: "secondary",
             color: "primary",
@@ -49,12 +62,13 @@ const theme = extendTheme({
     IconButton: {
       baseStyle: {
         borderRadius: "md",
+        color: "textColor",
         _hover: {
-          bg: "white",
-          borderColor: "white",
-          borderWidth: "2px",
-          borderStyle: "solid",
+          bg: "secondary",
           color: "primary",
+          borderColor: "primary",
+          borderWidth: "1px",
+          borderStyle: "solid",
         },
       },
     },

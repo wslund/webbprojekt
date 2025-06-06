@@ -13,15 +13,25 @@ import {
 import { FaInstagram, FaFacebookF } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
 import horseFarm from "../../assets/horseFarm.png";
-import horseLogo from "../../assets/horseLogo.svg";
-import RoutingObject from "../RoutingObject";
+import newHorseLogo from "../../assets/stall_backen_logo2.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
-const MainNavbar = () => {
+interface RouteItem {
+  path: string;
+  name: string;
+  element: JSX.Element;
+  hidden?: boolean;
+  protected?: boolean;
+}
+
+interface MainNavbarProps {
+  routes: RouteItem[];
+}
+
+const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
@@ -31,18 +41,17 @@ const MainNavbar = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const visibleRoutes = routes.filter((route) => !route.hidden);
 
   return (
     <Stack spacing={0} margin="0" padding="0" position="relative">
       <Box
-        bg="primary"
+        bg="navBar"
         width="100%"
-        height="85px"
+        height="90px"
         position="fixed"
         top="0"
         zIndex="1"
@@ -52,29 +61,38 @@ const MainNavbar = () => {
             {isMobile ? (
               <Box display="flex" alignItems="center">
                 <Image
-                  src={horseLogo}
-                  alt="Horse Logo"
-                  width={"40px"}
-                  height={"40px"}
-                  marginRight="8px"
+                  src={newHorseLogo}
+                  alt="Stall Backen Logo"
+                  width="80px"
+                  height="44px"
+                  objectFit="contain"
+                  marginLeft="10px"
                 />
-                <Link as={RouterLink} to="/Om">
-                  <Text
-                    fontFamily="'Poppins', sans-serif"
-                    fontSize="lg"
-                    color="#2D0400"
+                <Box display="flex" alignItems="center" ml={4}>
+                  <Link
+                    href="https://www.instagram.com/malma_stallbacken/"
+                    isExternal
                   >
-                    Stall Backen
-                  </Text>
-                </Link>
+                    <IconButton
+                      aria-label="Instagram"
+                      icon={<FaInstagram />}
+                      variant="ghost"
+                      color="textColor"
+                      className="icon-button"
+                      mr={2}
+                      fontSize="28px"
+                      _hover={{ color: "menyTextHoverEffekt" }}
+                    />
+                  </Link>
+                </Box>
               </Box>
             ) : (
               <Box
-                backgroundColor="primary"
-                width="250px"
-                height="140px"
+                bg="navBar"
+                width="280px"
+                height="170px"
                 position="absolute"
-                bottom="-95px"
+                bottom="-130px"
                 left="50%"
                 transform={`translateX(-50%) scale(${scale})`}
                 zIndex="2"
@@ -83,38 +101,33 @@ const MainNavbar = () => {
                 textAlign="center"
                 transition="transform 0.2s ease-out"
               >
-                <Image
-                  src={horseLogo}
-                  alt="Horse Logo"
-                  width={"250px"}
-                  height={"95px"}
-                  paddingTop={"5px"}
-                />
                 <Link as={RouterLink} to="/Om">
-                  <Text
-                    fontFamily="'Poppins', sans-serif"
-                    fontSize="xx-large"
-                    color="#2D0400"
-                    textAlign="center"
-                  >
-                    Stall Backen
-                  </Text>
+                  <Image
+                    src={newHorseLogo}
+                    alt="Stall Backen Logo"
+                    width="100%"
+                    height="100%"
+                    objectFit="contain"
+                    position="absolute"
+                    top="0"
+                    left="0"
+                  />
                 </Link>
               </Box>
             )}
           </Flex>
           {!isMobile && (
             <Flex align="center" justify="center" flex="1" marginY="0">
-              {RoutingObject.map((route, index) => (
+              {visibleRoutes.map((route, index) => (
                 <Link
                   as={RouterLink}
                   key={index}
                   to={route.path}
                   marginRight="4"
-                  color="#2D0400"
+                  color="menyText"
                   fontSize="lg"
                   fontFamily="heading"
-                  _hover={{ color: "white" }}
+                  _hover={{ color: "menyTextHoverEffekt" }}
                 >
                   {route.name}
                 </Link>
@@ -127,7 +140,7 @@ const MainNavbar = () => {
                 <MenuIcon fontSize="inherit" style={{ fontSize: "36px" }} />
               }
               variant="link"
-              color="#2D0400"
+              color="textColor"
               aria-label="Open Menu"
               onClick={onOpen}
               style={{ padding: 0 }}
@@ -135,27 +148,19 @@ const MainNavbar = () => {
           )}
           {!isMobile && (
             <Flex align="center" justify="flex-end">
-              <Link href="https://www.instagram.com" isExternal>
+              <Link
+                href="https://www.instagram.com/malma_stallbacken/"
+                isExternal
+              >
                 <IconButton
                   aria-label="Instagram"
                   icon={<FaInstagram />}
                   variant="ghost"
-                  color="#2D0400"
+                  color="textColor"
                   className="icon-button"
                   mr={2}
                   fontSize="24px"
-                  _hover={{ color: "white" }}
-                />
-              </Link>
-              <Link href="https://www.facebook.com" isExternal>
-                <IconButton
-                  aria-label="Facebook"
-                  icon={<FaFacebookF />}
-                  variant="ghost"
-                  color="#2D0400"
-                  className="icon-button"
-                  fontSize="24px"
-                  _hover={{ color: "white" }}
+                  _hover={{ color: "menyTextHoverEffekt" }}
                 />
               </Link>
             </Flex>
@@ -176,7 +181,7 @@ const MainNavbar = () => {
 
       {isOpen && (
         <Box
-          bg="rgba(255, 255, 255, 0.9)"
+          bg="background"
           zIndex="10"
           position="fixed"
           top="0"
@@ -192,19 +197,19 @@ const MainNavbar = () => {
           <IconButton
             icon={<CloseIcon style={{ fontSize: "36px" }} />}
             variant="link"
-            color="#2D0400"
+            color="textColor"
             aria-label="Close Menu"
             onClick={onClose}
             marginLeft="auto"
             marginBottom="30px"
             style={{ padding: 0, fontSize: "50px" }}
             _hover={{
-              color: "white",
+              color: "menyTextHoverEffekt",
               transform: "scale(1.1)",
               transition: "transform 0.2s ease-in-out, color 0.2s ease-in-out",
             }}
           />
-          {RoutingObject.map((route, index) => (
+          {visibleRoutes.map((route, index) => (
             <Box
               as={RouterLink}
               key={index}
@@ -215,10 +220,10 @@ const MainNavbar = () => {
               onClick={onClose}
             >
               <Text
-                color="#2D0400"
+                color="textColor"
                 fontSize="lg"
                 fontFamily="heading"
-                _hover={{ color: "white" }}
+                _hover={{ color: "menyTextHoverEffekt" }}
               >
                 {route.name}
               </Text>
