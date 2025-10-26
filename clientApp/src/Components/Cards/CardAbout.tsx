@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   Stack,
   Box,
@@ -6,9 +7,10 @@ import {
   Flex,
   Image,
   useBreakpointValue,
+  UnorderedList,
+  ListItem,
 } from "@chakra-ui/react";
 import myHorseImage from "../../assets/häst.jpg";
-import { useEffect } from "react";
 
 const CardAbout = () => {
   const direction = useBreakpointValue({ base: "column", md: "row" }) as
@@ -26,124 +28,129 @@ const CardAbout = () => {
   return (
     <Stack
       spacing={4}
-      margin="0"
-      padding="0"
+      m="0"
+      p="0"
       position="relative"
       bg="background"
-      minHeight="100vh"
-      paddingX={{ base: "1rem", md: "2rem" }}
+      minH="100vh"
+      px={{ base: "1rem", md: "2rem" }}
     >
+      {/* Sektion: Om oss */}
       <Flex
         align="center"
         justify="center"
-        padding={{ base: "1rem", md: "2rem" }}
+        p={{ base: "1rem", md: "2rem" }}
         direction={direction}
-        maxWidth="1200px"
-        width="100%"
-        margin="0 auto"
+        maxW="1200px"
+        w="100%"
+        m="0 auto"
         bg="secondary"
         borderRadius="md"
         boxShadow="sm"
       >
         <Box
-          width={{ base: "100%", md: "50%" }}
+          w={{ base: "100%", md: "50%" }}
           textAlign="center"
-          paddingX={{ base: "1rem", md: "2rem" }}
+          px={{ base: "1rem", md: "2rem" }}
           order={textOrder}
         >
-          <Heading as="h1" size="xl" marginBottom="1rem" color="textColor">
+          <Heading as="h1" size="xl" mb="1rem" color="textColor">
             Om Oss
           </Heading>
-          <Text fontSize="md" lineHeight="1.6" color="textColor">
+
+          <Text fontSize="md" lineHeight="1.6" color="textColor" mb="0.75rem">
             Välkommen till [Företagsnamn], där vår passion för hästar förenas
             med vår expertis inom hästuppfödning.
-            <br />
-            <br />
+          </Text>
+          <Text fontSize="md" lineHeight="1.6" color="textColor">
             Vi har över [antal] års erfarenhet av att föda upp hästar av högsta
             kvalitet. Vår verksamhet fokuserar på att skapa en trygg och
             hälsosam miljö för våra hästar, vilket garanterar deras
             välbefinnande och utveckling.
           </Text>
         </Box>
+
         <Box
-          maxWidth="600px"
-          width="100%"
+          maxW="600px"
+          w="100%"
           display="flex"
           flexDirection="column"
           alignItems="center"
-          marginBottom={{ base: "2rem", md: "0" }}
+          mb={{ base: "2rem", md: "0" }}
           order={imageOrder}
         >
           <Image
             src={myHorseImage}
             alt="Hästar"
-            width="100%"
-            maxWidth="600px"
+            w="100%"
+            maxW="600px"
             objectFit="cover"
             borderRadius="md"
             border="1px solid"
             borderColor="primary"
-            marginBottom="1rem"
+            mb="1rem"
           />
         </Box>
       </Flex>
 
+      {/* Sektion: Våra tjänster */}
       <Flex
         align="center"
         justify="center"
-        padding={{ base: "1rem", md: "2rem" }}
+        p={{ base: "1rem", md: "2rem" }}
         direction={direction}
-        maxWidth="1200px"
-        width="100%"
-        margin="0 auto"
+        maxW="1200px"
+        w="100%"
+        m="0 auto"
         bg="secondary"
         borderRadius="md"
         boxShadow="sm"
       >
         <Box
-          maxWidth="600px"
-          width="100%"
+          maxW="600px"
+          w="100%"
           display="flex"
           flexDirection="column"
           alignItems="center"
-          marginBottom={{ base: "2rem", md: "0" }}
+          mb={{ base: "2rem", md: "0" }}
           order={servicesImageOrder}
         >
           <Image
             src={myHorseImage}
             alt="Våra Tjänster"
-            width="100%"
-            maxWidth="600px"
+            w="100%"
+            maxW="600px"
             objectFit="cover"
             borderRadius="md"
             border="1px solid"
             borderColor="primary"
-            marginBottom="1rem"
+            mb="1rem"
           />
         </Box>
+
         <Box
-          width={{ base: "100%", md: "50%" }}
-          maxWidth="800px"
+          w={{ base: "100%", md: "50%" }}
+          maxW="800px"
           textAlign={{ base: "center", md: "left" }}
-          paddingX={{ base: "1rem", md: "4rem" }}
+          px={{ base: "1rem", md: "4rem" }}
           order={servicesTextOrder}
         >
-          <Heading as="h2" size="lg" marginBottom="1rem" color="textColor">
+          <Heading as="h2" size="lg" mb="1rem" color="textColor">
             Våra Tjänster
           </Heading>
-          <Text fontSize="md" lineHeight="1.6" color="textColor">
+
+          <Text fontSize="md" lineHeight="1.6" color="textColor" mb="0.5rem">
             Vi erbjuder en rad tjänster inom hästuppfödning, inklusive:
-            <Box
-              as="ul"
-              listStyleType="disc"
-              paddingLeft="1.5rem"
-              marginTop="0.5rem"
-            >
-              <Box as="li">Professionell träning</Box>
-              <Box as="li">Rådgivning kring hästhållning</Box>
-              <Box as="li">Uppfödning av kvalitetsstammar</Box>
-              <Box as="li">Föreställningar och evenemang</Box>
-            </Box>
+          </Text>
+
+          <UnorderedList pl="1.5rem" mb="0.5rem" textAlign="left">
+            <ListItem>Professionell träning</ListItem>
+            <ListItem>Rådgivning kring hästhållning</ListItem>
+            <ListItem>Uppfödning av kvalitetsstammar</ListItem>
+            <ListItem>Föreställningar och evenemang</ListItem>
+          </UnorderedList>
+
+          <Text fontSize="md" lineHeight="1.6" color="textColor">
             Kontakta oss för att lära dig mer om hur vi kan hjälpa dig!
           </Text>
         </Box>
