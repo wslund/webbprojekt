@@ -10,12 +10,16 @@ import {
   Image,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FaInstagram, FaFacebookF } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
+
 import horseFarm from "../../assets/horseFarm.png";
 import newHorseLogo from "../../assets/stall_backen_logo2.svg";
+
+// MUI icons (default-import per ikon)
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import InstagramIcon from "@mui/icons-material/Instagram";
+// import FacebookIcon from "@mui/icons-material/Facebook"; // om du behöver
 
 interface RouteItem {
   path: string;
@@ -39,7 +43,6 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
       const newScale = Math.max(0.85, 1 - window.scrollY / 550);
       setScale(newScale);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -47,26 +50,20 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
   const visibleRoutes = routes.filter((route) => !route.hidden);
 
   return (
-    <Stack spacing={0} margin="0" padding="0" position="relative">
-      <Box
-        bg="navBar"
-        width="100%"
-        height="90px"
-        position="fixed"
-        top="0"
-        zIndex="1"
-      >
-        <Flex justify="space-between" align="center" height="100%" paddingX={4}>
-          <Flex align="center" flex="1" marginRight="20px" position="relative">
+    <Stack spacing={0} m="0" p="0" position="relative">
+      <Box bg="navBar" w="100%" h="90px" position="fixed" top="0" zIndex="1">
+        <Flex justify="space-between" align="center" h="100%" px={4}>
+          {/* Logo + social (vänster) */}
+          <Flex align="center" flex="1" mr="20px" position="relative">
             {isMobile ? (
               <Box display="flex" alignItems="center">
                 <Image
                   src={newHorseLogo}
                   alt="Stall Backen Logo"
-                  width="80px"
-                  height="44px"
+                  w="80px"
+                  h="44px"
                   objectFit="contain"
-                  marginLeft="10px"
+                  ml="10px"
                 />
                 <Box display="flex" alignItems="center" ml={4}>
                   <Link
@@ -75,7 +72,7 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
                   >
                     <IconButton
                       aria-label="Instagram"
-                      icon={<FaInstagram />}
+                      icon={<InstagramIcon fontSize="inherit" />}
                       variant="ghost"
                       color="textColor"
                       className="icon-button"
@@ -89,8 +86,8 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
             ) : (
               <Box
                 bg="navBar"
-                width="280px"
-                height="170px"
+                w="280px"
+                h="170px"
                 position="absolute"
                 bottom="-130px"
                 left="50%"
@@ -105,8 +102,8 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
                   <Image
                     src={newHorseLogo}
                     alt="Stall Backen Logo"
-                    width="100%"
-                    height="100%"
+                    w="100%"
+                    h="100%"
                     objectFit="contain"
                     position="absolute"
                     top="0"
@@ -116,14 +113,16 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
               </Box>
             )}
           </Flex>
+
+          {/* Menylänkar (center, desktop) */}
           {!isMobile && (
-            <Flex align="center" justify="center" flex="1" marginY="0">
+            <Flex align="center" justify="center" flex="1" my="0">
               {visibleRoutes.map((route, index) => (
                 <Link
                   as={RouterLink}
                   key={index}
                   to={route.path}
-                  marginRight="4"
+                  mr="4"
                   color="menyText"
                   fontSize="lg"
                   fontFamily="heading"
@@ -134,6 +133,8 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
               ))}
             </Flex>
           )}
+
+          {/* Hamburger (mobil) */}
           {isMobile && !isOpen && (
             <IconButton
               icon={
@@ -146,6 +147,8 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
               style={{ padding: 0 }}
             />
           )}
+
+          {/* Social (höger, desktop) */}
           {!isMobile && (
             <Flex align="center" justify="flex-end">
               <Link
@@ -154,7 +157,7 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
               >
                 <IconButton
                   aria-label="Instagram"
-                  icon={<FaInstagram />}
+                  icon={<InstagramIcon fontSize="inherit" />}
                   variant="ghost"
                   color="textColor"
                   className="icon-button"
@@ -168,17 +171,19 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
         </Flex>
       </Box>
 
-      <Box position="relative" width="100%" paddingTop="60px">
+      {/* Hero-bild under navbaren */}
+      <Box position="relative" w="100%" pt="60px">
         <Image
           src={horseFarm}
           objectFit="cover"
-          width="100%"
-          height="400px"
-          margin="0"
-          padding="0"
+          w="100%"
+          h="400px"
+          m="0"
+          p="0"
         />
       </Box>
 
+      {/* Mobilmeny-overlay */}
       {isOpen && (
         <Box
           bg="background"
@@ -192,7 +197,7 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
           flexDirection="column"
           alignItems="flex-start"
           justifyContent="flex-start"
-          padding="20px"
+          p="20px"
         >
           <IconButton
             icon={<CloseIcon style={{ fontSize: "36px" }} />}
@@ -200,8 +205,8 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
             color="textColor"
             aria-label="Close Menu"
             onClick={onClose}
-            marginLeft="auto"
-            marginBottom="30px"
+            ml="auto"
+            mb="30px"
             style={{ padding: 0, fontSize: "50px" }}
             _hover={{
               color: "menyTextHoverEffekt",
@@ -214,9 +219,9 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ routes }) => {
               as={RouterLink}
               key={index}
               to={route.path}
-              width="100%"
+              w="100%"
               textAlign="left"
-              padding="5px 0"
+              p="5px 0"
               onClick={onClose}
             >
               <Text
