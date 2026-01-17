@@ -1,63 +1,26 @@
+// src/App.tsx
 import React from "react";
-import { ChakraProvider, Box } from "@chakra-ui/react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Navigate,
-  Routes,
-} from "react-router-dom";
-import { AuthProvider, AuthContext } from "./AuthContext";
-import MainNavbar from "./Components/Meny/MainNavBar";
-import getRoutingObject from "./Components/RoutingObject";
-import Footer from "./Components/Meny/Footer";
-import theme from "./Components/Theme/Theme";
+import { Box } from "@chakra-ui/react";
+import { Routes, Route } from "react-router-dom";
+import { Navbar } from "./Components/Navbar";
+import { HomePage } from "./Components/HomePage";
+import { AboutPage } from "./Components/AboutPage";
+import { HorsesPage } from "./Components/HorsesPage";
+import { ContactPage } from "./Components/ContactPage";
 
-const App = () => {
-  const routes = getRoutingObject();
 
-  const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-    const { isAuthenticated } = React.useContext(AuthContext);
-    return isAuthenticated ? (
-      children
-    ) : (
-      <Navigate to="/OpenSesame/login" replace />
-    );
-  };
 
+const App: React.FC = () => {
   return (
-    <ChakraProvider theme={theme}>
-      <AuthProvider>
-        <Router>
-          <Box
-            bg="background"
-            minHeight="100vh"
-            display="flex"
-            flexDirection="column"
-          >
-            <MainNavbar routes={routes} />
-            <Box paddingTop="10px">
-              <Routes>
-                <Route path="/" element={<Navigate to="/Om" replace />} />
-                {routes.map((route) => (
-                  <Route
-                    key={route.path}
-                    path={route.path}
-                    element={
-                      route.protected ? (
-                        <ProtectedRoute>{route.element}</ProtectedRoute>
-                      ) : (
-                        route.element
-                      )
-                    }
-                  />
-                ))}
-              </Routes>
-              <Footer mt="auto" />
-            </Box>
-          </Box>
-        </Router>
-      </AuthProvider>
-    </ChakraProvider>
+    <Box bg="white" minH="100vh">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/om-oss" element={<AboutPage />} />
+        <Route path="/hastar" element={<HorsesPage />} />
+        <Route path="/kontakt" element={<ContactPage />} />
+      </Routes>
+    </Box>
   );
 };
 
