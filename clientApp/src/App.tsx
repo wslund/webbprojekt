@@ -7,8 +7,7 @@ import { HomePage } from "./Components/HomePage";
 import { AboutPage } from "./Components/AboutPage";
 import { HorsesPage } from "./Components/HorsesPage";
 import { ContactPage } from "./Components/ContactPage";
-
-
+import { NewsDetailPage } from "./Components/NewsDetailPage";
 
 const App: React.FC = () => {
   return (
@@ -19,6 +18,9 @@ const App: React.FC = () => {
         <Route path="/om-oss" element={<AboutPage />} />
         <Route path="/hastar" element={<HorsesPage />} />
         <Route path="/kontakt" element={<ContactPage />} />
+
+        {/* Nyhetsdetalj */}
+        <Route path="/nyheter/:id" element={<NewsDetailPage />} />
       </Routes>
     </Box>
   );

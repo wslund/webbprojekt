@@ -12,9 +12,10 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { HeroCarousel } from "../Components/HeroCarousel";
 
-// Exempeldata – byt till API/JSON senare om du vill
+// Mock tills backend finns
 const news = [
   {
     id: "1",
@@ -22,7 +23,6 @@ const news = [
     date: "2026-01-10",
     excerpt:
       "Vi har välkomnat årets första föl. Läs mer om stamtavla och hur vi jobbar med de första veckorna.",
-    href: "#", // byt till t.ex. "/nyheter/nya-fol"
   },
   {
     id: "2",
@@ -30,7 +30,6 @@ const news = [
     date: "2025-12-20",
     excerpt:
       "Vi finslipar vinterträningen med fokus på styrka, återhämtning och glädje i arbetet.",
-    href: "#",
   },
   {
     id: "3",
@@ -38,7 +37,6 @@ const news = [
     date: "2025-11-30",
     excerpt:
       "Starka prestationer i helgens lopp. Vi sammanfattar dagen och vad som väntar härnäst.",
-    href: "#",
   },
 ];
 
@@ -74,7 +72,11 @@ export const HomePage = () => {
             px={{ base: 5, md: 10 }}
             py={{ base: 6, md: 10 }}
           >
-            <HStack justify="space-between" align="flex-end" mb={{ base: 6, md: 8 }}>
+            <HStack
+              justify="space-between"
+              align="flex-end"
+              mb={{ base: 6, md: 8 }}
+            >
               <Box>
                 <Heading
                   as="h3"
@@ -88,7 +90,10 @@ export const HomePage = () => {
                 </Text>
               </Box>
 
+              {/* valfri sida senare */}
               <Button
+                as={RouterLink}
+                to="/nyheter"
                 size="sm"
                 variant="outline"
                 color="white"
@@ -117,8 +122,15 @@ export const HomePage = () => {
                       {new Date(item.date).toLocaleDateString("sv-SE")}
                     </Text>
 
-                    <Heading as="h4" fontSize="lg" fontWeight="600" lineHeight="1.2">
-                      <LinkOverlay href={item.href}>{item.title}</LinkOverlay>
+                    <Heading
+                      as="h4"
+                      fontSize="lg"
+                      fontWeight="600"
+                      lineHeight="1.2"
+                    >
+                      <LinkOverlay as={RouterLink} to={`/nyheter/${item.id}`}>
+                        {item.title}
+                      </LinkOverlay>
                     </Heading>
 
                     <Text color="whiteAlpha.900">{item.excerpt}</Text>
