@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import React from "react";
 import {
   Box,
@@ -90,15 +89,14 @@ export const HomePage = () => {
                 </Text>
               </Box>
 
-              {/* valfri sida senare */}
               <Button
-                as={RouterLink}
-                to="/nyheter"
                 size="sm"
                 variant="outline"
                 color="white"
                 borderColor="whiteAlpha.600"
                 _hover={{ bg: "whiteAlpha.200" }}
+                as={RouterLink}
+                to="/nyheter"
               >
                 Se fler nyheter →
               </Button>
