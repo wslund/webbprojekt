@@ -11,7 +11,6 @@ import {
   Stack,
   Text,
   Spinner,
-  Code,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { HeroCarousel } from "../Components/HeroCarousel";
@@ -48,19 +47,10 @@ const mockNews: NewsItem[] = [
 ];
 
 export const HomePage = () => {
-  const rawEnv = useMemo(() => {
-    const envObj = (import.meta as any)?.env || {};
-    const keys = Object.keys(envObj).sort();
-    const val = envObj.VITE_API_BASE_URL;
-    return {
-      keys,
-      val: typeof val === "string" ? val : "",
-    };
-  }, []);
-
   const API_BASE = useMemo(() => {
-    return (rawEnv.val || "").trim().replace(/\/+$/, "");
-  }, [rawEnv.val]);
+    const v = import.meta.env.VITE_API_BASE_URL as string | undefined;
+    return (v || "").trim().replace(/\/+$/, "");
+  }, []);
 
   const [news, setNews] = useState<NewsItem[]>(mockNews);
   const [loading, setLoading] = useState(false);
@@ -73,7 +63,7 @@ export const HomePage = () => {
 
     const load = async () => {
       const controller = new AbortController();
-      const timeoutMs = 12000; // 12s – lagom för Render cold start
+      const timeoutMs = 12000;
       const t = setTimeout(() => controller.abort(), timeoutMs);
 
       try {
@@ -95,10 +85,9 @@ export const HomePage = () => {
         }
       } catch (e: any) {
         if (!cancelled) {
-          // AbortError = timeout
           if (e?.name === "AbortError") {
             setError(
-              "Timeout när vi hämtade nyheter (Render kan vara i cold start). Testa ladda om sidan."
+              "Timeout när vi hämtade nyheter (servern kan vara i cold start). Testa ladda om sidan."
             );
           } else {
             setError(e?.message || "Kunde inte hämta nyheter");
@@ -123,14 +112,20 @@ export const HomePage = () => {
 
       <Box py={16} bg="white">
         <Container maxW="6xl">
-          <Heading as="h2" fontSize={{ base: "2xl", md: "3xl" }} mb={4} fontWeight="500">
+          <Heading
+            as="h2"
+            fontSize={{ base: "2xl", md: "3xl" }}
+            mb={4}
+            fontWeight="500"
+          >
             Välkommen till Stall Exempelgården
           </Heading>
 
           <Text fontSize="md" color="gray.700">
-            Vi är ett stall som kombinerar uppfödning, travsport och en stark tro på att hästar
-            mår bäst när de får vara just hästar. På gården arbetar vi långsiktigt – från föl
-            till färdig tävlingshäst – med fokus på hållbarhet, temperament och prestation.
+            Vi är ett stall som kombinerar uppfödning, travsport och en stark
+            tro på att hästar mår bäst när de får vara just hästar. På gården
+            arbetar vi långsiktigt – från föl till färdig tävlingshäst – med
+            fokus på hållbarhet, temperament och prestation.
           </Text>
 
           <Box
@@ -141,30 +136,22 @@ export const HomePage = () => {
             px={{ base: 5, md: 10 }}
             py={{ base: 6, md: 10 }}
           >
-            <HStack justify="space-between" align="flex-end" mb={{ base: 6, md: 8 }}>
+            <HStack
+              justify="space-between"
+              align="flex-end"
+              mb={{ base: 6, md: 8 }}
+            >
               <Box>
-                <Heading as="h3" fontSize={{ base: "xl", md: "2xl" }} fontWeight="500">
+                <Heading
+                  as="h3"
+                  fontSize={{ base: "xl", md: "2xl" }}
+                  fontWeight="500"
+                >
                   Nyheter
                 </Heading>
                 <Text mt={2} color="whiteAlpha.800">
                   Senaste uppdateringarna från gården
                 </Text>
-
-                {/* Debug – kan tas bort sen */}
-                <Box mt={3} bg="whiteAlpha.100" borderRadius="md" p={3}>
-                  <Text fontSize="sm" color="whiteAlpha.900" mb={2}>
-                    Debug (Vite import.meta.env)
-                  </Text>
-                  <Text fontSize="sm" color="whiteAlpha.800">
-                    VITE_API_BASE_URL:{" "}
-                    <Code colorScheme="blackAlpha">
-                      {rawEnv.val ? rawEnv.val : "(tomt)"}
-                    </Code>
-                  </Text>
-                  <Text fontSize="xs" color="whiteAlpha.700" mt={2}>
-                    Keys: {rawEnv.keys.join(", ")}
-                  </Text>
-                </Box>
 
                 <HStack mt={3} spacing={3}>
                   {loading && (
@@ -187,7 +174,7 @@ export const HomePage = () => {
                   )}
                   {!API_BASE && (
                     <Text fontSize="sm" color="whiteAlpha.700">
-                      (Mock-data: ingen VITE_API_BASE_URL satt)
+                      (Ingen API-konfiguration hittades)
                     </Text>
                   )}
                 </HStack>
@@ -224,7 +211,12 @@ export const HomePage = () => {
                       {new Date(item.date).toLocaleDateString("sv-SE")}
                     </Text>
 
-                    <Heading as="h4" fontSize="lg" fontWeight="600" lineHeight="1.2">
+                    <Heading
+                      as="h4"
+                      fontSize="lg"
+                      fontWeight="600"
+                      lineHeight="1.2"
+                    >
                       <LinkOverlay as={RouterLink} to={`/nyheter/${item.id}`}>
                         {item.title}
                       </LinkOverlay>
