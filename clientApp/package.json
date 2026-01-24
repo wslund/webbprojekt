@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node -e \"console.log('VITE_API_BASE_URL=', process.env.VITE_API_BASE_URL)\" && tsc --noEmit && vite build",
+    "postinstall": "node -e \"console.log('POSTINSTALL cwd=', process.cwd()); console.log('POSTINSTALL VITE_API_BASE_URL=', process.env.VITE_API_BASE_URL)\"",
+    "build": "node -e \"console.log('BUILD cwd=', process.cwd()); console.log('BUILD VITE_API_BASE_URL=', process.env.VITE_API_BASE_URL)\" && tsc --noEmit && vite build",
     "preview": "vite preview --port 4173",
     "lint": "eslint .",
     "format": "prettier --write ."
