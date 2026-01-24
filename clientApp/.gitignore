@@ -31,3 +31,5 @@ lerna-debug.log*
 
 # Vercel CLI metadata (valfritt att ignorera)
 .vercel/
+.vercel
+.env*.local
