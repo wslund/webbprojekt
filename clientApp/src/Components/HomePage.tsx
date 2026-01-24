@@ -11,6 +11,7 @@ import {
   Stack,
   Text,
   Spinner,
+  Code,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { HeroCarousel } from "../Components/HeroCarousel";
@@ -22,7 +23,6 @@ type NewsItem = {
   excerpt: string;
 };
 
-// Fallback mock om env saknas (bra lokalt)
 const mockNews: NewsItem[] = [
   {
     id: "1",
@@ -48,18 +48,25 @@ const mockNews: NewsItem[] = [
 ];
 
 export const HomePage = () => {
-  const API_BASE = useMemo(() => {
-    // Vite: import.meta.env.* finns i build
-    const v = (import.meta as any)?.env?.VITE_API_BASE_URL as string | undefined;
-    return (v || "").trim().replace(/\/+$/, ""); // ta bort ev trailing slash
+  const rawEnv = useMemo(() => {
+    const envObj = (import.meta as any)?.env || {};
+    const keys = Object.keys(envObj).sort();
+    const val = envObj.VITE_API_BASE_URL;
+    return {
+      keys,
+      val: typeof val === "string" ? val : "",
+    };
   }, []);
 
+  const API_BASE = useMemo(() => {
+    return (rawEnv.val || "").trim().replace(/\/+$/, "");
+  }, [rawEnv.val]);
+
   const [news, setNews] = useState<NewsItem[]>(mockNews);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    // Om ingen API_BASE satt: kör mock
     if (!API_BASE) return;
 
     let cancelled = false;
@@ -69,22 +76,14 @@ export const HomePage = () => {
         setLoading(true);
         setError("");
 
-        const res = await fetch(`${API_BASE}/news`, {
-          headers: { "Content-Type": "application/json" },
-        });
-
-        if (!res.ok) {
-          throw new Error(`API error: ${res.status} ${res.statusText}`);
-        }
+        const res = await fetch(`${API_BASE}/news`);
+        if (!res.ok) throw new Error(`API error: ${res.status} ${res.statusText}`);
 
         const data = (await res.json()) as NewsItem[];
-        if (!cancelled && Array.isArray(data)) {
-          setNews(data);
-        }
+        if (!cancelled && Array.isArray(data)) setNews(data);
       } catch (e: any) {
         if (!cancelled) {
           setError(e?.message || "Kunde inte hämta nyheter");
-          // behåll mockNews som fallback
           setNews(mockNews);
         }
       } finally {
@@ -93,7 +92,6 @@ export const HomePage = () => {
     };
 
     load();
-
     return () => {
       cancelled = true;
     };
@@ -105,23 +103,16 @@ export const HomePage = () => {
 
       <Box py={16} bg="white">
         <Container maxW="6xl">
-          <Heading
-            as="h2"
-            fontSize={{ base: "2xl", md: "3xl" }}
-            mb={4}
-            fontWeight="500"
-          >
+          <Heading as="h2" fontSize={{ base: "2xl", md: "3xl" }} mb={4} fontWeight="500">
             Välkommen till Stall Exempelgården
           </Heading>
 
           <Text fontSize="md" color="gray.700">
-            Vi är ett stall som kombinerar uppfödning, travsport och en stark
-            tro på att hästar mår bäst när de får vara just hästar. På gården
-            arbetar vi långsiktigt – från föl till färdig tävlingshäst – med
-            fokus på hållbarhet, temperament och prestation.
+            Vi är ett stall som kombinerar uppfödning, travsport och en stark tro på att hästar
+            mår bäst när de får vara just hästar. På gården arbetar vi långsiktigt – från föl
+            till färdig tävlingshäst – med fokus på hållbarhet, temperament och prestation.
           </Text>
 
-          {/* NYHETER – grön box direkt under texten */}
           <Box
             mt={12}
             bg="green.900"
@@ -130,24 +121,31 @@ export const HomePage = () => {
             px={{ base: 5, md: 10 }}
             py={{ base: 6, md: 10 }}
           >
-            <HStack
-              justify="space-between"
-              align="flex-end"
-              mb={{ base: 6, md: 8 }}
-            >
+            <HStack justify="space-between" align="flex-end" mb={{ base: 6, md: 8 }}>
               <Box>
-                <Heading
-                  as="h3"
-                  fontSize={{ base: "xl", md: "2xl" }}
-                  fontWeight="500"
-                >
+                <Heading as="h3" fontSize={{ base: "xl", md: "2xl" }} fontWeight="500">
                   Nyheter
                 </Heading>
                 <Text mt={2} color="whiteAlpha.800">
                   Senaste uppdateringarna från gården
                 </Text>
 
-                {/* Statusrad */}
+                {/* DEBUG: visa vad Vite faktiskt ser */}
+                <Box mt={3} bg="whiteAlpha.100" borderRadius="md" p={3}>
+                  <Text fontSize="sm" color="whiteAlpha.900" mb={2}>
+                    Debug (Vite import.meta.env)
+                  </Text>
+                  <Text fontSize="sm" color="whiteAlpha.800">
+                    VITE_API_BASE_URL:{" "}
+                    <Code colorScheme="blackAlpha">
+                      {rawEnv.val ? rawEnv.val : "(tomt)"}
+                    </Code>
+                  </Text>
+                  <Text fontSize="xs" color="whiteAlpha.700" mt={2}>
+                    Keys: {rawEnv.keys.join(", ")}
+                  </Text>
+                </Box>
+
                 <HStack mt={3} spacing={3}>
                   {loading && (
                     <>
@@ -206,12 +204,7 @@ export const HomePage = () => {
                       {new Date(item.date).toLocaleDateString("sv-SE")}
                     </Text>
 
-                    <Heading
-                      as="h4"
-                      fontSize="lg"
-                      fontWeight="600"
-                      lineHeight="1.2"
-                    >
+                    <Heading as="h4" fontSize="lg" fontWeight="600" lineHeight="1.2">
                       <LinkOverlay as={RouterLink} to={`/nyheter/${item.id}`}>
                         {item.title}
                       </LinkOverlay>
