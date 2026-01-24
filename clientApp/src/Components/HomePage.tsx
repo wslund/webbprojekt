@@ -19,7 +19,7 @@ import { HeroCarousel } from "../Components/HeroCarousel";
 type NewsItem = {
   id: number | string;
   title: string;
-  date: string; // "YYYY-MM-DD"
+  date: string;
   excerpt: string;
 };
 
@@ -72,21 +72,41 @@ export const HomePage = () => {
     let cancelled = false;
 
     const load = async () => {
+      const controller = new AbortController();
+      const timeoutMs = 12000; // 12s – lagom för Render cold start
+      const t = setTimeout(() => controller.abort(), timeoutMs);
+
       try {
         setLoading(true);
         setError("");
 
-        const res = await fetch(`${API_BASE}/news`);
-        if (!res.ok) throw new Error(`API error: ${res.status} ${res.statusText}`);
+        const res = await fetch(`${API_BASE}/news`, {
+          signal: controller.signal,
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!res.ok) {
+          throw new Error(`API error: ${res.status} ${res.statusText}`);
+        }
 
         const data = (await res.json()) as NewsItem[];
-        if (!cancelled && Array.isArray(data)) setNews(data);
+        if (!cancelled && Array.isArray(data)) {
+          setNews(data);
+        }
       } catch (e: any) {
         if (!cancelled) {
-          setError(e?.message || "Kunde inte hämta nyheter");
+          // AbortError = timeout
+          if (e?.name === "AbortError") {
+            setError(
+              "Timeout när vi hämtade nyheter (Render kan vara i cold start). Testa ladda om sidan."
+            );
+          } else {
+            setError(e?.message || "Kunde inte hämta nyheter");
+          }
           setNews(mockNews);
         }
       } finally {
+        clearTimeout(t);
         if (!cancelled) setLoading(false);
       }
     };
@@ -130,7 +150,7 @@ export const HomePage = () => {
                   Senaste uppdateringarna från gården
                 </Text>
 
-                {/* DEBUG: visa vad Vite faktiskt ser */}
+                {/* Debug – kan tas bort sen */}
                 <Box mt={3} bg="whiteAlpha.100" borderRadius="md" p={3}>
                   <Text fontSize="sm" color="whiteAlpha.900" mb={2}>
                     Debug (Vite import.meta.env)
