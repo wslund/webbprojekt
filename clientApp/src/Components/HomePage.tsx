@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -10,12 +10,20 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  Spinner,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { HeroCarousel } from "../Components/HeroCarousel";
 
-// Mock tills backend finns
-const news = [
+type NewsItem = {
+  id: number | string;
+  title: string;
+  date: string; // "YYYY-MM-DD"
+  excerpt: string;
+};
+
+// Fallback mock om env saknas (bra lokalt)
+const mockNews: NewsItem[] = [
   {
     id: "1",
     title: "Nya föl på gården",
@@ -40,6 +48,57 @@ const news = [
 ];
 
 export const HomePage = () => {
+  const API_BASE = useMemo(() => {
+    // Vite: import.meta.env.* finns i build
+    const v = (import.meta as any)?.env?.VITE_API_BASE_URL as string | undefined;
+    return (v || "").trim().replace(/\/+$/, ""); // ta bort ev trailing slash
+  }, []);
+
+  const [news, setNews] = useState<NewsItem[]>(mockNews);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    // Om ingen API_BASE satt: kör mock
+    if (!API_BASE) return;
+
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const res = await fetch(`${API_BASE}/news`, {
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!res.ok) {
+          throw new Error(`API error: ${res.status} ${res.statusText}`);
+        }
+
+        const data = (await res.json()) as NewsItem[];
+        if (!cancelled && Array.isArray(data)) {
+          setNews(data);
+        }
+      } catch (e: any) {
+        if (!cancelled) {
+          setError(e?.message || "Kunde inte hämta nyheter");
+          // behåll mockNews som fallback
+          setNews(mockNews);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [API_BASE]);
+
   return (
     <Box bg="white">
       <HeroCarousel />
@@ -87,6 +146,33 @@ export const HomePage = () => {
                 <Text mt={2} color="whiteAlpha.800">
                   Senaste uppdateringarna från gården
                 </Text>
+
+                {/* Statusrad */}
+                <HStack mt={3} spacing={3}>
+                  {loading && (
+                    <>
+                      <Spinner size="sm" />
+                      <Text fontSize="sm" color="whiteAlpha.800">
+                        Laddar nyheter...
+                      </Text>
+                    </>
+                  )}
+                  {!loading && error && (
+                    <Text fontSize="sm" color="red.200">
+                      {error}
+                    </Text>
+                  )}
+                  {!loading && !error && API_BASE && (
+                    <Text fontSize="sm" color="whiteAlpha.700">
+                      Hämtas från backend
+                    </Text>
+                  )}
+                  {!API_BASE && (
+                    <Text fontSize="sm" color="whiteAlpha.700">
+                      (Mock-data: ingen VITE_API_BASE_URL satt)
+                    </Text>
+                  )}
+                </HStack>
               </Box>
 
               <Button
