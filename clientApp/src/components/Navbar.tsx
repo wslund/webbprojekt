@@ -1,4 +1,4 @@
-
+// src/components/Navbar.tsx
 import React from "react";
 import {
   Box,
@@ -44,15 +44,7 @@ export const Navbar = () => {
   const instagramUrl = "https://www.instagram.com/dittkonto/";
 
   return (
-    <Box
-      position="fixed"
-      top={0}
-      left={0}
-      right={0}
-      zIndex="modal"
-      bg="transparent"
-    >
-
+    <Box position="fixed" top={0} left={0} right={0} zIndex="modal" bg="transparent">
       <Box
         position="absolute"
         inset={0}
@@ -60,6 +52,7 @@ export const Navbar = () => {
         backdropFilter="blur(6px)"
         pointerEvents="none"
       />
+
       <ChakraLink
         href={instagramUrl}
         isExternal
@@ -82,6 +75,7 @@ export const Navbar = () => {
           _active={{ bg: "whiteAlpha.300" }}
         />
       </ChakraLink>
+
       <Container maxW="6xl" position="relative">
         <Flex h="64px" align="center" position="relative">
           <Text
@@ -94,6 +88,7 @@ export const Navbar = () => {
           >
             STALL EXEMPELGÅRDEN
           </Text>
+
           <HStack
             spacing={8}
             display={{ base: "none", md: "flex" }}

@@ -1,69 +1,19 @@
 // src/pages/AboutPage.tsx
 import React from "react";
-import {
-  Box,
-  Container,
-  Heading,
-  Text,
-  SimpleGrid,
-  Stack,
-} from "@chakra-ui/react";
-
-
-import aboutImg from "../../public/assets/foal.jpg"; 
+import { Box, Container, Heading, Text, SimpleGrid, Stack } from "@chakra-ui/react";
+import { PageHero } from "../components/PageHero";
+import aboutImg from "../../public/assets/foal.jpg";
 
 export const AboutPage = () => {
   return (
     <Box bg="white">
+      <PageHero
+        eyebrow="Om oss"
+        title="Stall Exempelgården"
+        subtitle="Familjeägt stall med fokus på hållbar uppfödning och travsport – där hästens välmående alltid kommer först."
+        imageUrl={aboutImg}
+      />
 
-      <Box
-        position="relative"
-        minH={{ base: "60vh", md: "65vh" }}
-        backgroundImage={`url(${aboutImg})`}
-        backgroundSize="cover"
-        backgroundPosition="center"
-        backgroundRepeat="no-repeat"
-      >
-
-        <Box
-          position="absolute"
-          inset={0}
-          bgGradient="linear(to-b, blackAlpha.700, blackAlpha.400)"
-        />
-
-
-        <Container maxW="6xl" position="relative" h="100%">
-          <Box
-
-            pt={{ base: "96px", md: "110px" }}
-            pb={{ base: 10, md: 16 }}
-            color="white"
-            maxW="2xl"
-          >
-            <Text
-              fontSize="xs"
-              textTransform="uppercase"
-              letterSpacing="0.18em"
-              opacity={0.9}
-              mb={2}
-            >
-              Om oss
-            </Text>
-            <Heading
-              as="h1"
-              fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-              fontWeight="500"
-              mb={3}
-            >
-              Stall Exempelgården
-            </Heading>
-            <Text fontSize={{ base: "sm", md: "md" }} opacity={0.9}>
-              Familjeägt stall med fokus på hållbar uppfödning och travsport –
-              där hästens välmående alltid kommer först.
-            </Text>
-          </Box>
-        </Container>
-      </Box>
       <Box pt={12} pb={16}>
         <Container maxW="6xl">
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={12}>
@@ -91,8 +41,7 @@ export const AboutPage = () => {
                   Filosofi
                 </Heading>
                 <Text>
-                  Hästens välmående först – då kommer resultaten som en naturlig
-                  följd.
+                  Hästens välmående först – då kommer resultaten som en naturlig följd.
                 </Text>
               </Box>
               <Box>

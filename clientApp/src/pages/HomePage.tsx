@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
@@ -13,7 +14,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { HeroCarousel } from "../Components/HeroCarousel";
+import { HeroCarousel } from "../components/HeroCarousel";
 
 type NewsItem = {
   id: number | string;
@@ -22,42 +23,21 @@ type NewsItem = {
   excerpt: string;
 };
 
-const mockNews: NewsItem[] = [
-  {
-    id: "1",
-    title: "Nya föl på gården",
-    date: "2026-01-10",
-    excerpt:
-      "Vi har välkomnat årets första föl. Läs mer om stamtavla och hur vi jobbar med de första veckorna.",
-  },
-  {
-    id: "2",
-    title: "Träningsuppdatering inför säsongen",
-    date: "2025-12-20",
-    excerpt:
-      "Vi finslipar vinterträningen med fokus på styrka, återhämtning och glädje i arbetet.",
-  },
-  {
-    id: "3",
-    title: "Resultat från senaste tävlingen",
-    date: "2025-11-30",
-    excerpt:
-      "Starka prestationer i helgens lopp. Vi sammanfattar dagen och vad som väntar härnäst.",
-  },
-];
-
 export const HomePage = () => {
   const API_BASE = useMemo(() => {
     const v = import.meta.env.VITE_API_BASE_URL as string | undefined;
     return (v || "").trim().replace(/\/+$/, "");
   }, []);
 
-  const [news, setNews] = useState<NewsItem[]>(mockNews);
+  const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!API_BASE) return;
+    if (!API_BASE) {
+      setError("Ingen API-konfiguration hittades (VITE_API_BASE_URL saknas).");
+      return;
+    }
 
     let cancelled = false;
 
@@ -75,13 +55,13 @@ export const HomePage = () => {
           headers: { "Content-Type": "application/json" },
         });
 
-        if (!res.ok) {
-          throw new Error(`API error: ${res.status} ${res.statusText}`);
-        }
+        if (!res.ok) throw new Error(`API error: ${res.status} ${res.statusText}`);
 
-        const data = (await res.json()) as NewsItem[];
-        if (!cancelled && Array.isArray(data)) {
-          setNews(data);
+        const data = (await res.json()) as unknown;
+
+        if (!cancelled) {
+          if (Array.isArray(data)) setNews(data as NewsItem[]);
+          else throw new Error("API returnerade inte en lista.");
         }
       } catch (e: any) {
         if (!cancelled) {
@@ -92,7 +72,7 @@ export const HomePage = () => {
           } else {
             setError(e?.message || "Kunde inte hämta nyheter");
           }
-          setNews(mockNews);
+          setNews([]);
         }
       } finally {
         clearTimeout(t);
@@ -112,12 +92,7 @@ export const HomePage = () => {
 
       <Box py={16} bg="white">
         <Container maxW="6xl">
-          <Heading
-            as="h2"
-            fontSize={{ base: "2xl", md: "3xl" }}
-            mb={4}
-            fontWeight="500"
-          >
+          <Heading as="h2" fontSize={{ base: "2xl", md: "3xl" }} mb={4} fontWeight="500">
             Välkommen till Stall Exempelgården
           </Heading>
 
@@ -130,26 +105,18 @@ export const HomePage = () => {
 
           <Box
             mt={12}
-            bg="green.900"
+            bg="#00887C"
             color="white"
             borderRadius={{ base: "xl", md: "2xl" }}
             px={{ base: 5, md: 10 }}
             py={{ base: 6, md: 10 }}
           >
-            <HStack
-              justify="space-between"
-              align="flex-end"
-              mb={{ base: 6, md: 8 }}
-            >
+            <HStack justify="space-between" align="flex-end" mb={{ base: 6, md: 8 }}>
               <Box>
-                <Heading
-                  as="h3"
-                  fontSize={{ base: "xl", md: "2xl" }}
-                  fontWeight="500"
-                >
+                <Heading as="h3" fontSize={{ base: "xl", md: "2xl" }} fontWeight="500">
                   Nyheter
                 </Heading>
-                <Text mt={2} color="whiteAlpha.800">
+                <Text mt={2} color="whiteAlpha.900">
                   Senaste uppdateringarna från gården
                 </Text>
 
@@ -157,7 +124,7 @@ export const HomePage = () => {
                   {loading && (
                     <>
                       <Spinner size="sm" />
-                      <Text fontSize="sm" color="whiteAlpha.800">
+                      <Text fontSize="sm" color="whiteAlpha.900">
                         Laddar nyheter...
                       </Text>
                     </>
@@ -167,16 +134,6 @@ export const HomePage = () => {
                       {error}
                     </Text>
                   )}
-                  {!loading && !error && API_BASE && (
-                    <Text fontSize="sm" color="whiteAlpha.700">
-                      Hämtas från backend
-                    </Text>
-                  )}
-                  {!API_BASE && (
-                    <Text fontSize="sm" color="whiteAlpha.700">
-                      (Ingen API-konfiguration hittades)
-                    </Text>
-                  )}
                 </HStack>
               </Box>
 
@@ -184,7 +141,7 @@ export const HomePage = () => {
                 size="sm"
                 variant="outline"
                 color="white"
-                borderColor="whiteAlpha.600"
+                borderColor="whiteAlpha.800"
                 _hover={{ bg: "whiteAlpha.200" }}
                 as={RouterLink}
                 to="/nyheter"
@@ -193,30 +150,29 @@ export const HomePage = () => {
               </Button>
             </HStack>
 
+            {!loading && !error && news.length === 0 && (
+              <Text color="whiteAlpha.900">Inga nyheter ännu.</Text>
+            )}
+
             <SimpleGrid columns={{ base: 1, md: 3 }} spacing={5}>
               {news.map((item) => (
                 <LinkBox
                   key={item.id}
                   as="article"
-                  bg="whiteAlpha.100"
+                  bg="whiteAlpha.150"
                   borderWidth="1px"
-                  borderColor="whiteAlpha.200"
+                  borderColor="whiteAlpha.300"
                   borderRadius="xl"
                   p={5}
                   transition="transform 0.15s ease"
-                  _hover={{ transform: "translateY(-2px)", bg: "whiteAlpha.200" }}
+                  _hover={{ transform: "translateY(-2px)", bg: "whiteAlpha.250" }}
                 >
                   <Stack spacing={3}>
-                    <Text fontSize="sm" color="whiteAlpha.700">
+                    <Text fontSize="sm" color="whiteAlpha.900">
                       {new Date(item.date).toLocaleDateString("sv-SE")}
                     </Text>
 
-                    <Heading
-                      as="h4"
-                      fontSize="lg"
-                      fontWeight="600"
-                      lineHeight="1.2"
-                    >
+                    <Heading as="h4" fontSize="lg" fontWeight="600" lineHeight="1.2">
                       <LinkOverlay as={RouterLink} to={`/nyheter/${item.id}`}>
                         {item.title}
                       </LinkOverlay>

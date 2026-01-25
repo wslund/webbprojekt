@@ -1,14 +1,6 @@
-// src/Components/HeroCarousel.tsx
+// src/components/HeroCarousel.tsx
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Container,
-  Flex,
-  Heading,
-  Text,
-  HStack,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Text, HStack, Button } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import foalImg from "../../public/assets/foal.jpg";
 
@@ -51,10 +43,7 @@ export const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(
-      () => setCurrent((prev) => (prev + 1) % slides.length),
-      6500
-    );
+    const id = setInterval(() => setCurrent((prev) => (prev + 1) % slides.length), 6500);
     return () => clearInterval(id);
   }, []);
 
@@ -62,7 +51,6 @@ export const HeroCarousel = () => {
 
   return (
     <Box id="hero" as="section" bg="white">
-
       <Box
         position="relative"
         minH={{ base: "60vh", md: "65vh" }}
@@ -72,11 +60,7 @@ export const HeroCarousel = () => {
         backgroundRepeat="no-repeat"
         transition="background-image 0.8s ease-out"
       >
-        <Box
-          position="absolute"
-          inset={0}
-          bgGradient="linear(to-b, blackAlpha.700, blackAlpha.400)"
-        />
+        <Box position="absolute" inset={0} bgGradient="linear(to-b, blackAlpha.700, blackAlpha.400)" />
 
         <Container maxW="6xl" position="relative" h="100%">
           <Flex
@@ -88,11 +72,7 @@ export const HeroCarousel = () => {
             pb={{ base: 10, md: 20 }}
             color="white"
           >
-            <Box
-              maxW="2xl"
-              textAlign={{ base: "left", md: "center" }}
-              mx={{ base: 0, md: "auto" }}
-            >
+            <Box maxW="2xl" textAlign={{ base: "left", md: "center" }} mx={{ base: 0, md: "auto" }}>
               <Heading
                 as="h1"
                 fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
@@ -104,16 +84,12 @@ export const HeroCarousel = () => {
               <Text fontSize={{ base: "sm", md: "md" }} mb={6} opacity={0.9}>
                 {slide.subtitle}
               </Text>
-              <HStack
-                spacing={4}
-                justify={{ base: "flex-start", md: "center" }}
-                flexWrap="wrap"
-              >
+
+              <HStack spacing={4} justify={{ base: "flex-start", md: "center" }} flexWrap="wrap">
                 {slide.ctaPrimary && (
                   <Button
                     as={RouterLink}
                     to={slide.ctaPrimary.to}
-                    rounded="full"
                     size="md"
                     bg="white"
                     color="gray.900"
@@ -122,11 +98,11 @@ export const HeroCarousel = () => {
                     {slide.ctaPrimary.label}
                   </Button>
                 )}
+
                 {slide.ctaSecondary && (
                   <Button
                     as={RouterLink}
                     to={slide.ctaSecondary.to}
-                    rounded="full"
                     size="md"
                     variant="outline"
                     borderColor="whiteAlpha.900"
@@ -141,6 +117,7 @@ export const HeroCarousel = () => {
           </Flex>
         </Container>
       </Box>
+
       <HStack spacing={2} justify="center" py={4}>
         {slides.map((_, i) => (
           <Box
