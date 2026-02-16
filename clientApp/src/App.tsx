@@ -1,28 +1,62 @@
-// src/App.tsx
 import React from "react";
-import { Box } from "@chakra-ui/react";
-import { Routes, Route } from "react-router-dom";
-import { Navbar } from "./Components/Navbar";
-import { HomePage } from "./Components/HomePage";
-import { AboutPage } from "./Components/AboutPage";
-import { HorsesPage } from "./Components/HorsesPage";
-import { ContactPage } from "./Components/ContactPage";
-import { NewsDetailPage } from "./Components/NewsDetailPage";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Navbar } from "./components/Navbar";
+import { Footer } from "./components/Footer";
+import { ScrollToTop } from "./components/ScrollToTop";
+import { HomePage } from "./pages/HomePage";
+import { AboutPage } from "./pages/AboutPage";
+import { HorsesPage } from "./pages/HorsesPage";
+import { NewsPage } from "./pages/NewsPage";
+import { NewsDetailPage } from "./pages/NewsDetailPage";
+import { ContactPage } from "./pages/ContactPage";
+
+// Admin
+import { useAuth } from "./admin/AuthContext";
+import { LoginPage } from "./admin/LoginPage";
+import { AdminLayout } from "./admin/AdminLayout";
+import { AdminDashboard } from "./admin/AdminDashboard";
+import { AdminHorses } from "./admin/AdminHorses";
+import { AdminNews } from "./admin/AdminNews";
+import { AdminMessages } from "./admin/AdminMessages";
+
+const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isLoggedIn } = useAuth();
+  if (!isLoggedIn) return <Navigate to="/admin/login" replace />;
+  return <>{children}</>;
+};
 
 const App: React.FC = () => {
-  return (
-    <Box bg="white" minH="100vh">
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/om-oss" element={<AboutPage />} />
-        <Route path="/hastar" element={<HorsesPage />} />
-        <Route path="/kontakt" element={<ContactPage />} />
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
 
-        {/* Nyhetsdetalj */}
-        <Route path="/nyheter/:id" element={<NewsDetailPage />} />
-      </Routes>
-    </Box>
+  return (
+    <>
+      <ScrollToTop />
+      {!isAdmin && <Navbar />}
+
+      <main>
+        <Routes>
+          {/* Public */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/om-oss" element={<AboutPage />} />
+          <Route path="/hastar" element={<HorsesPage />} />
+          <Route path="/nyheter" element={<NewsPage />} />
+          <Route path="/nyheter/:slug" element={<NewsDetailPage />} />
+          <Route path="/kontakt" element={<ContactPage />} />
+
+          {/* Admin */}
+          <Route path="/admin/login" element={<LoginPage />} />
+          <Route path="/admin" element={<RequireAuth><AdminLayout /></RequireAuth>}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="hastar" element={<AdminHorses />} />
+            <Route path="nyheter" element={<AdminNews />} />
+            <Route path="meddelanden" element={<AdminMessages />} />
+          </Route>
+        </Routes>
+      </main>
+
+      {!isAdmin && <Footer />}
+    </>
   );
 };
 
