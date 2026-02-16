@@ -3,4 +3,17 @@ dist
 .vite
 *.local
 .DS_Store
+<<<<<<< HEAD
 .env
+=======
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Vercel CLI metadata (valfritt att ignorera)
+.vercel/
+.vercel
+.env*.local
+>>>>>>> 4cb1f7897da9269ffd330b607274bcd2f83dec90
