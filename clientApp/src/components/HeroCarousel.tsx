@@ -121,26 +121,7 @@ export const HeroCarousel: React.FC = () => {
             onClick={() => goTo(i)}
           />
         ))}
-      </HStack>
-
-      {/* Scroll indicator */}
-      <Flex
-        display={{ base: "none", md: "flex" }}
-        position="absolute"
-        bottom={10}
-        left="50%"
-        transform="translateX(-50%)"
-        direction="column"
-        align="center"
-        gap={2}
-        color="whiteAlpha.600"
-        animation="scrollBounce 2s infinite"
-      >
-        <Text fontSize="0.65rem" letterSpacing="0.15em" textTransform="uppercase">
-          Scrolla
-        </Text>
-        <Box w="1px" h="40px" bgGradient="linear(to-b, whiteAlpha.600, transparent)" />
-      </Flex>
+      </HStack>  
     </Box>
   );
 };

@@ -113,7 +113,7 @@ export const Navbar: React.FC = () => {
             {/* Right side */}
             <HStack spacing={2}>
               <ChakraLink
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/malma_stallbacken/"
                 isExternal
                 color={menuOpen ? "white" : linkColor}
                 fontSize="xl"

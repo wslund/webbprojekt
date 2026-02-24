@@ -50,11 +50,8 @@ export const Footer: React.FC = () => (
             Sociala medier
           </Text>
           <VStack align="start" spacing={2}>
-            <ChakraLink href="https://instagram.com/" isExternal fontSize="sm" _hover={{ color: "white" }} transition="color 0.3s">
+            <ChakraLink href="https://www.instagram.com/malma_stallbacken/" isExternal fontSize="sm" _hover={{ color: "white" }} transition="color 0.3s">
               Instagram
-            </ChakraLink>
-            <ChakraLink href="https://facebook.com/" isExternal fontSize="sm" _hover={{ color: "white" }} transition="color 0.3s">
-              Facebook
             </ChakraLink>
           </VStack>
         </Box>
