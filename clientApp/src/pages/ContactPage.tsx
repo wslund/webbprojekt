@@ -8,7 +8,7 @@ import { Reveal } from "../components/Reveal";
 import { api } from "../api";
 
 const CONTACT_EMAIL = "info@stallbacken.se";
-const FARM_ADDRESS = "Stall Backen, Exempelvägen 1, 123 45 Exempelby";
+const FARM_ADDRESS = "Stall Backen"
 
 export const ContactPage: React.FC = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -46,14 +46,14 @@ export const ContactPage: React.FC = () => {
     }
   };
 
-  const mapSrc = useMemo(() => `https://www.google.com/maps?q=${encodeURIComponent(FARM_ADDRESS)}&output=embed`, []);
+  const mapSrc = useMemo(() => "https://www.google.com/maps?q=58.22956527425997,12.778832305293115&z=13&output=embed", []);
 
   return (
     <>
       <PageHero
         tag="Kontakt" title="Hör av dig"
         subtitle="Frågor om hästar, samarbeten eller besök? Skicka ett meddelande så återkommer vi."
-        imageUrl="https://images.pexels.com/photos/1758144/pexels-photo-1758144.jpeg?auto=compress&cs=tinysrgb&w=1920"
+        imageUrl="https://images.unsplash.com/photo-1476231682828-37e571bc172f?auto=format&fit=crop&w=1920&q=80"
       />
 
       <Box py={{ base: 16, md: 24 }}>
