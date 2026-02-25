@@ -111,7 +111,7 @@ export const heroSlides: HeroSlide[] = [
   {
     title: "En gård att trivas på.",
     subtitle: "Kuperade hagar, närhet till banor och en vardag där hästar och människor får utrymme att må bra.",
-    imageUrl: "https://images.pexels.com/photos/1553284965/pexels-photo-1553284965.jpeg?auto=compress&cs=tinysrgb&w=1920",
+    imageUrl: "https://images.unsplash.com/photo-1476231682828-37e571bc172f?auto=format&fit=crop&w=1920&q=80",
     ctaPrimary: { label: "Boka ett besök", to: "/kontakt" },
   },
 ];
